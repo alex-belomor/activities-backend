@@ -7,12 +7,12 @@ exports.connect = function (url, done) {
         return done();
     }
 
-    MongoClient.connect(url, function (err, db) {
+    MongoClient.connect(url, function (err, database) {
         if (err) {
             return done(err);
         }
 
-        db = db.db('local');
+        db = database.db('local');
         done();
     });
 }
