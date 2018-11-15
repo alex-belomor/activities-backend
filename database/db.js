@@ -1,22 +1,18 @@
-var MongoClient = require('mongodb').MongoClient;
+const {
+  MongoClient,
+  Db
+} = require('mongodb')
 
-var db;
+let db
 
-exports.connect = function (url, done) {
-    if (db) {
-        return done();
-    }
-
-    MongoClient.connect(url, function (err, database) {
-        if (err) {
-            return done(err);
-        }
-
-        db = database.db('local');
-        done();
-    });
+exports.connect = async function (url) {
+  const database = await MongoClient.connect(url)
+  db = database.db('local')
 }
-
+/**
+  *
+  * @returns {Db}
+  */
 exports.get = function () {
-    return db;
+  return db
 }
