@@ -1,37 +1,38 @@
-﻿'use strict';
-var debug = require('debug');
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var db = require('./database/db');
+'use strict'
+const debug = require('debug')
+const express = require('express')
+const path = require('path')
+const favicon = require('serve-favicon')
+const logger = require('morgan')
+const cookieParser = require('cookie-parser')
+const bodyParser = require('body-parser')
+const db = require('./database/db')
 
 const baseAPI = '/app/v1/'
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var events = require('./routes/events');
+const routes = require('./routes/index')
+const users = require('./routes/users')
+const events = require('./routes/events')
 
-var app = express();
-
+const app = express()
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(logger('dev'))
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({
+  extended: false
+}))
 // app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(baseAPI, routes);
-app.use(baseAPI, users);
-app.use(baseAPI, events);
+app.use(baseAPI, routes)
+app.use(baseAPI, users)
+app.use(baseAPI, events)
 
 // catch 404 and forward to error handler
 // app.use(function (req, res, next) {
-//     var err = new Error('Not Found');
+//     const err = new Error('Not Found');
 //     err.status = 404;
 //     next(err);
 // });
@@ -60,17 +61,12 @@ app.use(baseAPI, events);
 //     });
 // });
 
-
 // app.set('port', process.env.PORT || 3000);
 
-
-db.connect('mongodb://localhost:27017', function (err) {
-    if (err) {
-        return console.log(err);
-    }
-    
-    app.listen(1337, '192.168.1.21', function () {
-        //debug('express server listening on port ' + 1337);
-    });
-
-});
+db.connect('mongodb://0.0.0.0:27017')
+  .then(() => app.listen(1337, function () {
+    console.log('express server listening on port ' + 1337)
+  }))
+  .catch(err => {
+    console.error(err)
+  })
